@@ -1,0 +1,15 @@
+[package]
+name = "handle"
+authors = ["fa_555 <fa_555@foxmail.com>"]
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = { version = "0.7.7", features = ["json"] }
+serde = { version = "1.0.210", features = ["derive"] }
+thiserror = "1.0.64"
+tokio = { version = "1.40.0", features = ["macros", "rt-multi-thread"] }
+serde_json = "1.0.128"
+base64 = "0.22.1"
+lazy_static = "1.5.0"
+rand = "0.8.5"
