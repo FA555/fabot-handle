@@ -2,7 +2,7 @@
 
 #{
   /// ====== Config ======
-  let SERIF-FONTS = ("STIX Two Text", "Source Han Serif SC")
+  let SERIF-FONTS = ("STIX Two Text", "LXGW Neo ZhiSong")
   let MONO-FONTS = ("Fira Code Retina", "PingFang SC")
   
   let correct-color = rgb("#1d9c9c")
@@ -242,6 +242,15 @@
     column-gutter: .5em,
     row-gutter: .5em,
     ..rows.flatten(),
+    ..if not data.finished {
+      (
+        box(
+          width: box-size,
+          height: box-size,
+          fill: bg-color,
+        ),
+      ) * 4
+    },
   )
   
   align(center)[#data.result.len() \/ #data.max_attempt_count]
