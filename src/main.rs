@@ -4,6 +4,7 @@ mod game;
 mod model;
 mod route;
 mod dict;
+mod util;
 
 use axum::{
     routing::{get, post},

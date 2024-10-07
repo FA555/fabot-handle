@@ -1,4 +1,4 @@
-use crate::constant::{DATA_DIR, DATA_FILE, IMAGE_FILE, MAX_ATTEMPT_COUNT};
+use crate::constant::{IMAGE_DIR, MAX_ATTEMPT_COUNT};
 use crate::dict::{ANSWERS, DICT, REVERSE_ANSWERS};
 use crate::error::OmniError;
 use crate::model::{Answer, CalculatedAttempt, Input, Output};
@@ -44,29 +44,30 @@ pub async fn start() -> Json<Answer> {
 }
 
 fn gen_image(data: Output) -> Result<String, OmniError> {
-    let data_path = &format!("{DATA_DIR}{DATA_FILE}");
-    let image_path = &format!("{DATA_DIR}{IMAGE_FILE}");
+    let uuid = crate::util::gen_uuid();
+    let data_file = &format!("data-{uuid}.json");
+    let data_path = &format!("{IMAGE_DIR}{data_file}");
+    let image_path = &format!("{IMAGE_DIR}handle-{uuid}.png");
 
-    let output_json = serde_json::to_string(&data)?;
-    std::fs::write(data_path, output_json)?;
+    std::fs::write(data_path, serde_json::to_string(&data)?)?;
 
     std::process::Command::new("typst")
         .args([
             "compile",
             "image/main.typ",
             "--ppi",
-            "108",
+            "400",
             "--input",
-            "path=data.json",
-            "image/handle-{n}.png",
+            &format!("path={data_file}"),
+            image_path,
         ])
         .output()?;
 
     let image_binary = std::fs::read(image_path)?;
-    eprintln!("Length: {}", image_binary.len());
-
     let image_base64 = general_purpose::STANDARD.encode(image_binary);
+
     std::fs::remove_file(image_path)?;
+    std::fs::remove_file(data_path)?;
 
     Ok(image_base64)
 }
