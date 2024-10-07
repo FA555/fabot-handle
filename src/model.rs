@@ -17,6 +17,7 @@ pub struct Answer {
 pub struct Attempt {
     pub word: String,
     pub pinyin: String,
+    pub verified: Option<bool>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -279,7 +280,11 @@ impl CharInfo for CalculatedCharacter {
 }
 
 #[derive(Debug, Serialize)]
-pub struct CalculatedAttempt(pub [CalculatedCharacter; IDIOM_LENGTH]);
+// pub struct CalculatedAttempt(pub [CalculatedCharacter; IDIOM_LENGTH]);
+pub struct CalculatedAttempt {
+    pub(crate) characters: [CalculatedCharacter; IDIOM_LENGTH],
+    pub(crate) verified: bool,
+}
 
 #[derive(Debug, Serialize)]
 pub struct Output {

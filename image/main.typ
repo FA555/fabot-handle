@@ -1,3 +1,5 @@
+#import "@preview/fontawesome:0.4.0": *
+
 #{
   /// ====== Config ======
   let SERIF-FONTS = ("STIX Two Text", "Source Han Serif SC")
@@ -18,15 +20,46 @@
   set page(
     height: auto,
     width: auto,
-    margin: 1em,
+    margin: (left: 1em, right: .5em, top: 1.5em, bottom: .75em),
+    header: align(
+      right,
+      text(
+        .65em,
+        font: MONO-FONTS,
+        gray,
+      )[\@fa_555 Handle Bot],
+    ),
   )
   
-  show grid.cell: it => box(
-    height: box-size,
-    width: box-size,
-    fill: rgb("#f7f8fa"),
-    it,
-  )
+  let check = () => {
+    let stroke = (
+      thickness: .125em,
+      paint: correct-color,
+      cap: "round",
+    )
+    
+    box(
+      width: 1em,
+      height: 1em,
+      move(
+        dx: .1em,
+        dy: .45em,
+        stack(
+          dir: ltr,
+          path(
+            (-.25em, -.25em),
+            (0em, 0em),
+            stroke: stroke,
+          ),
+          path(
+            (0em, 0em),
+            (.5em, -.5em),
+            stroke: stroke,
+          ),
+        ),
+      ),
+    )
+  }
   
   /// ====== Models ======
   
@@ -92,6 +125,8 @@
       initial-color = white
       vowel-color = white
       tone-color = white
+    } else {
+      whole-color = bg-color
     }
     
     box(
@@ -139,7 +174,7 @@
   }
   
   let rows = data.result.map(it => {
-    it.map(it => make-cell(
+    it.characters.map(it => make-cell(
       it.literal,
       it.pinyin.initial,
       it.pinyin.vowel,
@@ -180,7 +215,14 @@
       } else {
         missing-color
       },
-    ))
+    )) + (
+      if it.verified {
+        align(
+          center + horizon,
+          check(),
+        )
+      },
+    )
   })
   
   // pagebreak()
@@ -188,7 +230,7 @@
   /// ====== Content ======
   
   grid(
-    columns: 4,
+    columns: 5,
     rows: calc.min(
       data.max_attempt_count,
       data.result.len() + if data.finished {

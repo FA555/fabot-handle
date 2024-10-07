@@ -228,7 +228,10 @@ impl CalculatedAttempt {
                 char.result.tone = State::Misplaced;
             }
         }
-
-        Ok(Self(res))
+        
+        Ok(Self {
+            characters: res,
+            verified: matches!(attempt.verified, Some(true)),
+        })
     }
 }
