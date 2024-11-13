@@ -2,7 +2,7 @@
 
 #{
   /// ====== Config ======
-  let SERIF-FONTS = ("STIX Two Text", "LXGW Neo ZhiSong")
+  let SERIF-FONTS = ("Libertinus Serif", "LXGW Neo ZhiSong")
   let MONO-FONTS = ("Fira Code Retina", "PingFang SC")
   
   let correct-color = rgb("#1d9c9c")
