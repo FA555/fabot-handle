@@ -19,7 +19,7 @@ def main():
         idiom = line.split()[0]
         if idiom in reverse_index:
             processed_idioms.append(all_idiom_items[reverse_index[idiom]])
-        if len(processed_idioms) == 3000:
+        if len(processed_idioms) >= 4000:
             break
     
     with open('data/high-frequency.json', 'w') as f:
