@@ -3,7 +3,7 @@ use lazy_static::lazy_static;
 use std::{collections::HashMap, fs, path::PathBuf};
 
 fn data_dir() -> PathBuf {
-    "/data".into()
+    "data".into()
 }
 
 fn read_answers_from(file_name: &str) -> Vec<Answer> {

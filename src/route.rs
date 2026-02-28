@@ -56,7 +56,7 @@ fn gen_image(data: Output) -> Result<String, OmniError> {
             "compile",
             "image/main.typ",
             "--ppi",
-            "400",
+            "200",
             "--input",
             &format!("path={data_file}"),
             image_path,
