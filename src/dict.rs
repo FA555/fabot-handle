@@ -1,15 +1,28 @@
 use crate::model::Answer;
 use lazy_static::lazy_static;
-use std::collections::HashMap;
+use std::{collections::HashMap, fs, path::PathBuf};
+
+fn data_dir() -> PathBuf {
+    "/data".into()
+}
+
+fn read_answers_from(file_name: &str) -> Vec<Answer> {
+    let path = data_dir().join(file_name);
+    let data = fs::read_to_string(&path).unwrap_or_else(|err| {
+        panic!("failed to read {}: {}", path.display(), err);
+    });
+
+    serde_json::from_str(&data).unwrap_or_else(|err| {
+        panic!("failed to parse {}: {}", path.display(), err);
+    })
+}
 
 fn read_all() -> Vec<Answer> {
-    let data = include_str!("../data/all.json");
-    serde_json::from_str(data).unwrap()
+    read_answers_from("all.json")
 }
 
 fn read_answers() -> Vec<Answer> {
-    let data = include_str!("../data/high-frequency.json");
-    serde_json::from_str(data).unwrap()
+    read_answers_from("high-frequency.json")
 }
 
 fn reserve_index() -> HashMap<String, usize> {

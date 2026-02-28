@@ -5,8 +5,8 @@ use crate::model::{Answer, CalculatedAttempt, Input, Output};
 
 use axum::extract::{Json, Query};
 use axum::http::StatusCode;
-use base64::{engine::general_purpose, Engine};
-use rand::seq::SliceRandom;
+use base64::{Engine, engine::general_purpose};
+use rand::prelude::IndexedRandom;
 use serde::Serialize;
 use std::collections::HashMap;
 
@@ -40,7 +40,7 @@ pub async fn ping(Query(params): Query<HashMap<String, String>>) -> String {
 }
 
 pub async fn start() -> Json<Answer> {
-    Json(ANSWERS.choose(&mut rand::thread_rng()).unwrap().clone())
+    Json(ANSWERS.choose(&mut rand::rng()).unwrap().clone())
 }
 
 fn gen_image(data: Output) -> Result<String, OmniError> {
