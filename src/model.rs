@@ -24,6 +24,7 @@ pub struct Attempt {
 pub struct Input {
     pub answer: Attempt,
     pub attempts: Vec<Attempt>,
+    pub finished: Option<bool>,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize)]

@@ -75,8 +75,13 @@ fn gen_image(data: Output) -> Result<String, OmniError> {
 fn attempt_inner(input: Input) -> Result<String, OmniError> {
     eprintln!("{:#?}", input);
 
-    let finished = input.attempts.len() >= MAX_ATTEMPT_COUNT
-        || (!input.attempts.is_empty() && input.attempts.last().unwrap().word == input.answer.word);
+    let finished = input.finished.unwrap_or_else(|| {
+        input.attempts.len() >= MAX_ATTEMPT_COUNT
+            || input
+                .attempts
+                .last()
+                .is_some_and(|last| last.word == input.answer.word)
+    });
 
     let answer = input.answer.try_into()?;
 
